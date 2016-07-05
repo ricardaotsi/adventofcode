@@ -11,7 +11,10 @@
 # dvszwmarrgswjxmb is naughty because it contains only one vowel.
 # How many strings are nice?
 
+#Answer: 238
+
 nice=0
+word=""
 with open("05 - nice naughty.txt") as txt:
 	for line in txt:
 		temp=list(line)
@@ -21,10 +24,11 @@ with open("05 - nice naughty.txt") as txt:
 		for position, i in enumerate(temp):
 			if i=="a" or i=="e" or i=="i" or i=="o" or i=="u":
 				vowels+=1
-			word=i
-			if word == i[position+1]:
+			if word == i:
 				repetition=True
+			if word+i == "ab" or word+i == "cd" or word+i == "pq" or word+i == "xy":
+				contain=True
+			word = i
 		if vowels>=3 and repetition and not contain:
 			nice+=1
-		break
 print(nice)
