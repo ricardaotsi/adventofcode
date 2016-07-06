@@ -8,22 +8,46 @@
 # turn off 499,499 through 500,500 would turn off (or leave off) the middle four lights.
 # After following the instructions, how many lights are lit?
 
+#Answer: 377891
+
 import re
 
-numbers=list()
-matrix = [[0 for x in range(1000)] for y in range(1000)]
+numbers = list()
+w = 1000
+h = 1000
+matrix = [ [ 0 for x in range( w ) ] for y in range( h ) ]
 
-def changelights(str, lista):
-	
-with open("06 - Probably a Fire Hazard.txt") as txt:
+def changelights( stri, lista ):
+	for positiony, y in enumerate( matrix ):
+		if positiony >= int( lista[1] ) and positiony <= int ( lista[3] ):
+			for x in range(int( lista[0] ), int( lista[2] )+1):
+				if stri == "on":
+					y[x]=1
+				elif stri == "off":
+					y[x] = 0
+				else:
+					if y[x]==0:
+						y[x]=1
+					else:
+						y[x]=0
+
+def count():
+	cos = 0
+	for y in matrix:
+		for x in range(0,w):
+			if y[x]==1:
+				cos+=1
+	return cos
+
+with open( "06 - Probably a Fire Hazard.txt" ) as txt:
 	for line in txt:
-		numbers=re.findall('\d+', line)
-		if line[1] == "u":
-			if line[6]=="n":
-				print("on")
+		numbers = re.findall( '\d+', line )
+		if line[ 1 ] == "u":
+			if line[ 6 ] == "n":
+				changelights( "on", numbers )
 			else:
-				print("oof")
+				changelights("off", numbers)
 		else:
-			print("toogle")
-			
-		
+			changelights("toggle", numbers)
+
+print(count())
