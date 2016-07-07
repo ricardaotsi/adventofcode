@@ -27,32 +27,60 @@
 # y: 456
 # In little Bobby's kit's instructions booklet (provided as your puzzle input), what signal is ultimately provided to wire a?
 
+
+#Answer: 3176
+
 operations=dict()
 results=dict()
 
-with open( '07 - Some Assembly Required.txt' ) as txt:
+with open('07 - Some Assembly Required.txt' ) as txt:
 	for line in txt:
 		temp=line.split()
 		if len(temp)==3:
 			if temp[0].isdigit():
 				results[temp[2]] = temp[0]
 			else:
-				operations[temp[2]] = temp[0]
+				operations[temp[2]] = [temp[0]]
 		elif len(temp)==4:
-			operations[temp[3]]=[operations[0], operations[1]]
-print(results)
-print (operations)
+			operations[temp[3]]=[temp[0], temp[1]]
+		elif len(temp)==5:
+			operations[temp[4]]=[temp[0],temp[1],temp[2]]
 
+while len(operations)>0:
+	done=list()
+	for key1 in results:
+		for key2 in operations:
+			operations[key2]=[results[key1] if x == key1 else x for x in operations[key2]]
 
+	for key in operations:
+		if len(operations[key])==1:
+			if operations[key][0].isdigit():
+				results[key] = operations[key][0]
+				done+=(key,)
+		elif operations[key][0] == "NOT":
+			if operations[key][1].isdigit():
+				results[key]= str(~int(operations[key][1]) & 0xffff)
+				done+=(key,)
+		elif operations[key][1] == "AND":
+			if operations[key][0].isdigit() and operations[key][2].isdigit():
+				results[key] = str(int(operations[key][0]) & int(operations[key][2]))
+				done+=(key,)
+		elif operations[key][1] == "OR":
+			if operations[key][0].isdigit() and operations[key][2].isdigit():
+				results[key] = str(int(operations[key][0]) | int(operations[key][2]))
+				done+=(key,)
+		elif operations[key][1] == "RSHIFT":
+			if operations[key][0].isdigit():
+				results[key]= str(int(operations[key][0]) >> int(operations[key][2]))
+				done+=(key,)
+		elif operations[key][1] == "LSHIFT":
+			if operations[key][0].isdigit():
+				results[key] = str(int(operations[key][0]) << int(operations[key][2]))
+				done+=(key,)
 
+	for val in done:
+		operations.pop(val,None)
 
-
-
-
-
-
-
-
-
+print(results['a'])
 
 
