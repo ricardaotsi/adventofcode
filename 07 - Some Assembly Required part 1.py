@@ -33,7 +33,7 @@
 operations=dict()
 results=dict()
 
-with open('07 - Some Assembly Required.txt' ) as txt:
+with open('07 - Some Assembly Required part 2.txt' ) as txt:
 	for line in txt:
 		temp=line.split()
 		if len(temp)==3:
