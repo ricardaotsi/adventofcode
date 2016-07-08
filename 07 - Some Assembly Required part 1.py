@@ -30,9 +30,16 @@
 
 #Answer: 3176
 
+# --- Part Two ---
+# Now, take the signal you got on wire a, override wire b to that signal, and reset the other wires (including wire a). What new signal is ultimately provided to wire a?
+
+#Answer:14710
+
 operations=dict()
 results=dict()
-
+#part 1
+#with open('07 - Some Assembly Required part 1.txt' ) as txt:
+#part 2
 with open('07 - Some Assembly Required part 2.txt' ) as txt:
 	for line in txt:
 		temp=line.split()
