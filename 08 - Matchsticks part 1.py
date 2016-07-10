@@ -9,28 +9,18 @@
 # Santa's list is a file that contains many double-quoted string literals, one on each line. The only escape sequences used are \\ (which represents a single backslash), \" (which represents a lone double-quote character), and \x plus two hexadecimal characters (which represents a single character with that ASCII code).
 # Disregarding the whitespace in the file, what is the number of characters of code for string literals minus the number of characters in memory for the values of the strings in total for the entire file?
 # For example, given the four strings above, the total number of characters of string code (2 + 5 + 10 + 6 = 23) minus the total number of characters in memory for string values (0 + 3 + 7 + 1 = 11) is 23 - 11 = 12.
+
+#Answer: 1371
+
 import re
 
 wordtotal=0
+striptotal=0
 with open('08 - Matchsticks.txt' ) as txt:
 	for line in txt:
 		wordtotal+=len(line)-1
-		wordregex = re.compile(r'(\\*)("*)(\\x\w\w*)')
-		
-		print(wordregex.sub('',line))
-		break
-print(wordtotal)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		wordregex = re.sub(r'\\\\', 'S', line)
+		wordregex = re.sub(r'\\"', '"', wordregex)
+		wordregex = re.sub(r'\\x..', 'H', wordregex)
+		striptotal+=len(wordregex)-3
+print(wordtotal-striptotal)
